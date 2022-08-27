@@ -1,0 +1,783 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "train_fusion_module_soufiane_newsampling_comet_new_args_imagnet.py",
+            "type": "python",
+            "request": "launch",
+            "program": "train_fusion_module_soufiane_newsampling_comet.py",
+            "console": "integratedTerminal",
+            "env": {
+                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+                "CUDA_VISIBLE_DEVICES": "1",
+            },
+            "args": ["--seed_type", "MBProbSeederSLCamsWithROI", "--arch", "vit_small", "--patch_size", "16", "--data_root", 
+                "~/datasets", "--dataset_name", "ILSVRC", "--epochs", "5", "--metadata_root", "/home/emursha/DGA1032_code/dino_orginal/metadata/ILSVRC", 
+                "--batch_size_per_gpu", "32", "--experiment_category", "training_fusion_imagenet_newsamplingroi", 
+                "--warmup_epochs", "0", "--num_workers", "8", "--search_hparameters", "true", "--evaluation_type", "1_4_heads_and_mean", 
+                // "--iou_regions_path", "Extract_bboxs_ILSVRC_with_vit_small_16_for_class_probability_with_dino_clfr_False/class_probability_dino_False_th0-75_nestedcontor_False_split_train_proxy0_0354a15a-e3e6-4300-8a64-e9017e8a15e5/1_4_heads_and_mean_on_train_list_imgs_with_best_head.pkl", 
+                "--proxy_training_set", "false", "--number_of_heads_for_fusion", "0", "--use_image_as_input_for_fusion", "true", 
+                "--exp_pre_name", "ilsvrc_top1_top5_wacv", 
+                "--use_classifier", "true", "--use_dino_classifier", "true",
+                "--iou_regions_path", "Extract_bboxs_overlapped_topn__ILSVRC_with_vit_small_16_for_class_probability_with_dino_clfr_False/class_probability_dino_False_th0-75_nestedcontor_False_split_train_proxy0with_bg_rois_e5321b3c-9c09-4585-a647-27b6ffd453db/1_4_heads_and_mean_on_train_list_imgs_with_best_head.pkl",
+                // "--run_for_given_setting",
+                // "--dino_pretrained", "/projets/smurtaza/wsol/dino_data/output_train_sam/best_loc_acc_checkpoint.pth",
+                // "--evaluate", "--evaluate_checkpoint", "best_trials/seperate_map_for_each_class_on_imagenet/Fusion_comet__imagenet_sepratechannel1_on_class_probability_dino_False_th0-75_nestedcontor_Fals/trial_0900146e9f22491885940b23b13986c3",
+                "--evaluate", 
+                "--evaluate_checkpoint", "/home/emursha/DGA1032_code/dino_orginal/best_trials/best_trials_ILSVRC_wacv/Fsion_cmt_ILSVRC__crf_fixed_islvrc_on_class_probability_dino_False_th0-75_nestedcontor_False_sp/trial_c151b11916aa46b69886643e67099139",
+                "--crf_fc",
+                "--classifier_for_top1_top5", "Dino_Head",
+                
+                // "--run_accumulate_and_save_fun"
+                // "--evaluate_only_on_attetion_maps"
+            ]   //, "--run_accumulate_and_save_fun"]
+        },
+        
+        {
+            "name": "train_fusion_module_soufiane.py",
+            "type": "python",
+            "request": "launch",
+            "program": "train_fusion_module_soufiane.py",
+            "console": "integratedTerminal",
+            // "args": ["--arch", "vit_small", "--patch_size", "16", "--data_root", "/home/emursha/dino_original/dataset", "--dataset_name", "CUB", "--epochs", "50",
+            //     "--metadata_root", "/home/emursha/dino_original/metadata/CUB", "--batch_size_per_gpu", "32", "--experiment_name", "dino_train_sam_testing",
+            //     "--experiment_category", "testing", "--dino_pretrained", "/home/emursha/dino_original/output_train_sam/best_loc_acc_checkpoint.pth",
+            //     "--lr", "0.01", "--freeze_last_layer", "0", "--warmup_epochs", "0", "--min_lr", "1e-8", "--use_fp16", "False",
+            //     //below paramters about seeder
+            //     "--seed_type", "MBProbSeederSLCAMS", "--seed_min", "1", "--seed_max", "1", "--seed_min_p", "0.3", "--seed_fg_erode_k", "11",
+            //     "--seed_fg_erode_iter", "1", "--seed_ksz", "3", "--seed_seg_ignore_idx", "-255",
+            //     "--lmda_clsloss", "1", "--lmda_seed_loss", "1"]
+        },
+
+        {
+            "name": "train_fusion_module_soufiane_newsampling.py",
+            "type": "python",
+            "request": "launch",
+            "program": "train_fusion_module_soufiane_newsampling.py",
+            "console": "integratedTerminal",
+            "env": {
+                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+                "CUDA_VISIBLE_DEVICES": "1",
+            },
+
+            "args": ["--seed_type", "MBProbSeederSLCamsWithROI", "--arch", "vit_small", "--patch_size", "16", "--data_root", "/home/emursha/datasets", 
+                "--dataset_name", "ILSVRC", "--epochs", "10", "--metadata_root", "metadata/ILSVRC", "--batch_size_per_gpu", "32", 
+                "--experiment_category", "training_fusion_imagenet_newsamplingroi", "--warmup_epochs", "0", "--num_workers", "8",
+            "--run_for_best_setting", "true", "--evaluation_type", "1_4_heads_and_mean",
+            "--iou_regions_path", "Extract_Bbox_on_training_proxy_set/Extract_bboxs_ILSVRC_with_vit_small_16_for_class_probability_with_dino_clfr_False/class_probability_dino_False_th0-75_nestedcontor_False_split_train_proxy/1_4_heads_and_mean_on_train_list_imgs_with_best_head.pkl",
+            "--proxy_training_set", "true"]
+
+            // "args": ["--arch", "vit_small", "--patch_size", "16", "--out_dim", "65536", "--norm_last_layer", "false", "--warmup_teacher_temp", "0.04", 
+            //     "--teacher_temp", "0.07", "--warmup_teacher_temp_epochs", "30", "--use_fp16", "false", "--weight_decay", "0.04", "--weight_decay_end", "0.4", 
+            //     "--clip_grad", "0", "--batch_size_per_gpu", "64", "--epochs", "800", "--freeze_last_layer", "1", "--lr", "0.0005", "--warmup_epochs", "10", 
+            //     "--min_lr", "1e-05", "--global_crops_scale", "0.25", "1.0", "--local_crops_scale", "0.05", "0.25", "--local_crops_number", "10", "--seed", "0", 
+            //     "--num_workers", "10", "--optimizer", "adamw", "--momentum_teacher", "0.996", "--use_bn_in_head", "false", "--drop_path_rate", "0.1",
+            //     "--data_root", "/home/emursha/datasets", "--dataset_name", "ILSVRC", 
+            //     "--experiment_category", "dino_testing_imagenet_bbox_save_indx", "--metadata_root", "metadata/ILSVRC",
+            //     "--experiment_name", "numpy", "--local_crops_scale", "0.05", "0.4", "--evaluation_type", "1_4_heads_and_mean", "--cam_curve_interval", "0.5",
+            //     "--num_samples_to_save", "0"],
+
+            //For Open Images
+            // "args": ["--arch", "vit_small", "--patch_size", "16", "--data_root", "/home/emursha/datasets", "--dataset_name", "OpenImages", "--epochs", "8",
+            //     "--metadata_root", "metadata/OpenImages", "--batch_size_per_gpu", "32", "--experiment_name", "dino_testing_fusionmodule_OpenImages",
+            //     "--experiment_category", "testing", "--dino_pretrained", "dino_training_withouthpsearch_OpenImages_vit_small_16/lr_0_0005_mlr_1e-06_mt_0_899_cg_0_3_fll_30_we_30/best_loc_acc_checkpoint_fusion.pth",
+            //     "--search_hparameters", "true", "--mask_root", "/home/emursha/datasets/OpenImages/annotations", "--warmup_epochs", "0"]
+            
+            //Archieves
+            // "args": ["--arch", "vit_small", "--patch_size", "16", "--data_root", "/home/emursha/dino_original/dataset", "--dataset_name", "CUB", "--epochs", "50",
+            //     "--metadata_root", "/home/emursha/dino_original/metadata/CUB", "--batch_size_per_gpu", "32", "--experiment_name", "dino_train_sam_testing",
+            //     "--experiment_category", "testing", "--dino_pretrained", "/home/emursha/dino_original/output_train_sam/best_loc_acc_checkpoint.pth",
+            //     "--lr", "0.01", "--freeze_last_layer", "0", "--warmup_epochs", "0", "--min_lr", "1e-8", "--use_fp16", "False",
+            //     //below paramters about seeder
+            //     "--seed_type", "MBProbSeederSLCAMS", "--seed_min", "1", "--seed_max", "1", "--seed_min_p", "0.3", "--seed_fg_erode_k", "11",
+            //     "--seed_fg_erode_iter", "1", "--seed_ksz", "3", "--seed_seg_ignore_idx", "-255",
+            //     "--lmda_clsloss", "1", "--lmda_seed_loss", "1"]
+        },
+
+        {
+            "name": "train_fusion_module_soufiane_newsampling_plotting_Scipt.py",
+            "type": "python",
+            "request": "launch",
+            "program": "train_fusion_module_soufiane_newsampling_plotting_Scipt.py",
+            "console": "integratedTerminal",
+            "env": {
+                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+                "CUDA_VISIBLE_DEVICES": "1",
+            },
+            "args": ["--seed_type", "MBProbSeederSLCamsWithROI", "--arch", "vit_small", "--patch_size", "16", "--data_root", "/projets/smurtaza/datasets", 
+                "--dataset_name", "Ericsson", "--epochs", "3", "--metadata_root", "metadata/Ericsson_TowerTop", "--batch_size_per_gpu", "32", 
+                "--experiment_category", "plotting_fusion_module_best_exp_roi_constrained", "--warmup_epochs", "0", "--num_workers", "8",
+            "--run_for_best_setting", "true", "--evaluation_type", "1_4_heads_and_mean",
+            "--iou_regions_path", "Extract_bboxs_Ericsson_TowerTop_with_vit_small_16_for_class_probability_with_dino_clfr_True/class_probability_dino_True_th0-04_nestedcontor_False_split_train_proxy0with_bg_rois_116c31f1-0aaa-4e76-984d-c390edad596c/1_4_heads_and_mean_on_train_list_imgs_with_best_head.pkl",
+            "--proxy_training_set", "false",//, "--import_from_optuna", "true"]
+            "--experiment_name", "testing_ericsson", "--testing_exp_path", "~/dino_output/Fusion_comet_Ericsson_TowerTop_hp_on_class_probability_dino_True_th0-04_nestedcontor_False_spli/trial_1067293413e34a6985f1a60450d719c3/",
+            "--use_dino_classifier", "true", "--crop_size", "448", "--resize_size", "512"]//"Fusion_comet_only_input_on_class_probability_dino_False_th0-75_nestedcontor_False_split_train_p/trial_e246f91cf8f241ba8a2de8ef4f874366"]//, "--import_from_optuna", "true"]
+
+        },
+
+        {
+            "name": "train_fusion_module_soufiane_newsampling_comet_new_args.py",
+            "type": "python",
+            "request": "launch",
+            "program": "train_fusion_module_soufiane_newsampling_comet.py",
+            "console": "integratedTerminal",
+            "env": {
+                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+                "CUDA_VISIBLE_DEVICES": "1",
+            },
+
+            // "args": ["--seed_type", "MBProbSeederSLCamsWithROI", "--arch", "vit_small", "--patch_size", "16", "--data_root", 
+            //     "/projets/smurtaza/datasets", "--dataset_name", "ILSVRC", "--epochs", "5", "--metadata_root", "metadata/ILSVRC", 
+            //     "--batch_size_per_gpu", "32", "--experiment_category", "training_fusion_imagenet_newsamplingroi", 
+            //     "--warmup_epochs", "0", "--num_workers", "8", "--run_for_best_setting", "true", "--evaluation_type", "1_4_heads_and_mean", 
+            //     "--iou_regions_path", "Extract_bboxs_ILSVRC_with_vit_small_16_for_class_probability_with_dino_clfr_False/class_probability_dino_False_th0-75_nestedcontor_False_split_train_proxy0_0354a15a-e3e6-4300-8a64-e9017e8a15e5/1_4_heads_and_mean_on_train_list_imgs_with_best_head.pkl", 
+            //     "--proxy_training_set", "false", "--number_of_heads_for_fusion", "0", "--use_image_as_input_for_fusion", "true", "--exp_pre_name", "new_roi_constrained"]
+
+            // "args": ["--seed_type", "MBProbSeederSLCamsWithROI", "--arch", "vit_small", "--patch_size", "16", "--data_root", 
+            //     "/projets/smurtaza/wsol/dino_data/dataset", "--dataset_name", "CUB", "--epochs", "5", "--metadata_root", "metadata/CUB", 
+            //     "--batch_size_per_gpu", "32", "--experiment_category", "training_fusion_imagenet_newsamplingroi", 
+            //     "--warmup_epochs", "0", "--num_workers", "8", "--search_hparameters", "true", "--evaluation_type", "1_4_heads_and_mean", 
+            //     // "--iou_regions_path", "Extract_bboxs_ILSVRC_with_vit_small_16_for_class_probability_with_dino_clfr_False/class_probability_dino_False_th0-75_nestedcontor_False_split_train_proxy0_0354a15a-e3e6-4300-8a64-e9017e8a15e5/1_4_heads_and_mean_on_train_list_imgs_with_best_head.pkl", 
+            //     "--proxy_training_set", "false", "--number_of_heads_for_fusion", "0", "--use_image_as_input_for_fusion", "true", "--exp_pre_name", "testing", 
+            // "--use_classifier", "true", "--use_dino_classifier", "true",
+            // "--iou_regions_path", "Extract_bboxs__CUB_with_vit_small_16_for_class_probability_with_dino_clfr_True/class_probability_dino_True_th0-5_nestedcontor_False_split_train_proxy0with_bg_rois_16c2daf8-b965-49af-a9d9-c239401d28be/1_4_heads_and_mean_on_train_list_imgs_with_best_head.pkl",
+            // "--dino_pretrained", "/projets/smurtaza/wsol/dino_data/output_train_sam/best_loc_acc_checkpoint.pth",
+            // "--evaluate", 
+            // "--evaluate_checkpoint", "best_trials/Fusion_comet_p_roi_p_cub_on_class_probability_dino_True_th0-5_nestedcontor_False_split_train_pr/trial_58cf0ee6f05847fcb19cec405ab559c9",
+            // // "--evaluate_checkpoint", "best_trials/Fusion_comet__roi_cub_on_class_probability_dino_True_th0-5_nestedcontor_False_split_train_proxy/trial_fe33557c58734e5fb6d8fc149165dd68",
+            // "--crf_fc", "--run_accumulate_and_save_fun"]
+            "args": ["--seed_type", "MBProbSeederSLCamsWithROI", "--arch", "vit_small", "--patch_size", "16", "--data_root", 
+                "/projets/smurtaza/datasets", "--dataset_name", "Ericsson", "--epochs", "5", "--metadata_root", "metadata/Ericsson_localization_FullTower", 
+                "--batch_size_per_gpu", "32", "--experiment_category", "training_fusion_imagenet_newsamplingroi", 
+                "--warmup_epochs", "0", "--num_workers", "8", "--search_hparameters", "true", "--evaluation_type", "1_4_heads_and_mean", 
+                // "--iou_regions_path", "Extract_bboxs_ILSVRC_with_vit_small_16_for_class_probability_with_dino_clfr_False/class_probability_dino_False_th0-75_nestedcontor_False_split_train_proxy0_0354a15a-e3e6-4300-8a64-e9017e8a15e5/1_4_heads_and_mean_on_train_list_imgs_with_best_head.pkl", 
+                "--proxy_training_set", "false", "--number_of_heads_for_fusion", "0", "--use_image_as_input_for_fusion", "true", "--exp_pre_name", "testing", 
+            "--use_classifier", "true", "--use_dino_classifier", "true",
+            "--iou_regions_path", "Extract_bboxs__Ericsson_localization_FullTower_with_vit_small_16_for_class_probability_with_dino_clfr_True/class_probability_dino_True_th0-06_nestedcontor_False_split_train_proxy0with_bg_rois_a99cbf24-a8a6-469a-816c-1b2e647fed8b/1_4_heads_and_mean_on_train_list_imgs_with_best_head.pkl",
+            // "--dino_pretrained", "/projets/smurtaza/wsol/dino_data/output_train_sam/best_loc_acc_checkpoint.pth",
+            // "--evaluate", "--evaluate_checkpoint", "best_trials/Fusion_comet__ericsson_fulltower_new_loc_bg_on_class_probability_dino_True_th0-06_nestedcontor_/trial_bc1bfab0327d4749a43b78bba14ccc02",
+            "--crf_fc"]//"--run_accumulate_and_save_fun"]
+            
+        },
+
+        {
+            "name": "train_fusion_module_soufiane_newsampling_comet.py",
+            "type": "python",
+            "request": "launch",
+            "program": "train_fusion_module_soufiane_newsampling_comet.py",
+            "console": "integratedTerminal",
+            "env": {
+                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+                "CUDA_VISIBLE_DEVICES": "1",
+            },
+
+            // "args": ["--seed_type", "MBProbSeederSLCamsWithROI", "--arch", "vit_small", "--patch_size", "16", "--data_root", "/home/emursha/datasets", 
+            //     "--dataset_name", "ILSVRC", "--epochs", "3", "--metadata_root", "metadata/ILSVRC", "--batch_size_per_gpu", "32", 
+            //     "--experiment_category", "training_fusion_imagenet_newsamplingroi", "--warmup_epochs", "0", "--num_workers", "8",
+            // "--run_for_best_setting", "true", "--evaluation_type", "1_4_heads_and_mean",
+            // "--iou_regions_path", "Extract_Bbox_on_training_proxy_set/Extract_bboxs_ILSVRC_with_vit_small_16_for_class_probability_with_dino_clfr_False/class_probability_dino_False_th0-02_nestedcontor_False_split_train_proxy1/1_4_heads_and_mean_on_train_list_imgs_with_best_head.pkl",
+            // "--proxy_training_set", "true",
+            // "--number_of_heads_for_fusion", "4",
+            // "--use_image_as_input_for_fusion", "true"]//, "--import_from_optuna", "true"]
+            // "args": ["--seed_type", "MBProbSeederSLCamsWithROI", "--arch", "vit_small", "--patch_size", "16", 
+            //     "--data_root", "/projets/smurtaza/datasets", "--dataset_name", "ILSVRC", "--epochs", "5", 
+            //     "--metadata_root", "metadata/ILSVRC", "--batch_size_per_gpu", "2", "--experiment_category", 
+            //     "testing_fusion_imagenet_newsamplingroi", "--warmup_epochs", "0", "--num_workers", "8", 
+            //     "--search_hparameters", "true", "--evaluation_type", "1_4_heads_and_mean", 
+            //     "--iou_regions_path", "Extract_bboxs_ILSVRC_with_vit_small_16_for_class_probability_with_dino_clfr_False/class_probability_dino_False_th0-02_nestedcontor_False_split_train_proxy1/1_4_heads_and_mean_on_train_list_imgs_with_best_head.pkl", 
+            //     "--proxy_training_set", "true", "--number_of_heads_for_fusion", "0", "--exp_pre_name", "testing",
+            //     "--use_image_as_input_for_fusion", "true", "--test_with_synth_inp", "false"]
+            "args": ["--seed_type", "MBProbSeederSLCamsWithROI", "--arch", "vit_small", "--patch_size", "16", "--data_root", 
+                "/home/emursha/datasets", "--dataset_name", "ILSVRC", "--epochs", "10", "--metadata_root", "metadata/ILSVRC", 
+                "--batch_size_per_gpu", "32", "--experiment_category", "training_fusion_imagenet_newsamplingroi", 
+                "--warmup_epochs", "0", "--num_workers", "8", "--run_for_best_setting", "true", "--evaluation_type", 
+                "1_4_heads_and_mean", 
+                "--iou_regions_path", "Extract_Bbox_on_training_proxy_set/Extract_bboxs_ILSVRC_with_vit_small_16_for_class_probability_with_dino_clfr_False/class_probability_dino_False_th0-75_nestedcontor_False_split_train_proxy0/1_4_heads_and_mean_on_train_list_imgs_with_best_head.pkl", 
+                "--proxy_training_set", "false", "--number_of_heads_for_fusion", "0", "--use_image_as_input_for_fusion", "true", 
+                "--exp_pre_name", "new_roi_constrained", "--cam_curve_interval", "0.001"]
+        },
+
+        {
+            "name": "train_fusion_module_soufiane_newsampling_comet_ericsson.py",
+            "type": "python",
+            "request": "launch",
+            "program": "train_fusion_module_soufiane_newsampling_comet.py",
+            "console": "integratedTerminal",
+            "env": {
+                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+                "CUDA_VISIBLE_DEVICES": "1",
+            },
+
+            "args": ["--seed_type", "MBProbSeederSLCamsWithROI", "--arch", "vit_small", "--patch_size", "16", "--data_root", 
+                "/projets/smurtaza/datasets/", "--dataset_name", "Ericsson", "--epochs", "3", "--metadata_root", "metadata/Ericsson_FullSite", 
+                "--batch_size_per_gpu", "2", "--experiment_category", "training_fusion_imagenet_newsamplingroi", 
+                "--warmup_epochs", "0", "--num_workers", "8", "--search_hparameters", "true", "--evaluation_type", 
+                "1_4_heads_and_mean", 
+                "--iou_regions_path", "Extract_bboxs_Ericsson_FullSite_with_vit_small_16_for_class_probability_with_dino_clfr_True/class_probability_dino_True_th0-0_nestedcontor_False_split_train_proxy0with_bg_rois_3feb8d1f-5dcd-447e-a865-04494fe70b35/1_4_heads_and_mean_on_train_list_imgs_with_best_head.pkl", 
+                "--proxy_training_set", "false", "--number_of_heads_for_fusion", "0", "--use_image_as_input_for_fusion", "true", 
+                "--exp_pre_name", "testing", "--cam_curve_interval", "0.001", "--resize_size", "512", "--crop_size", "448",
+                "--output_dir", "/projets/smurtaza/wsol/dino_orginal_output",
+                "--normalize_with_softmax", "true"]
+        },
+
+        {
+            "name": "train_fusion_module_soufiane_newsampling_comet_cub.py",
+            "type": "python",
+            "request": "launch",
+            "program": "train_fusion_module_soufiane_newsampling_comet.py",
+            "console": "integratedTerminal",
+            "env": {
+                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+                "CUDA_VISIBLE_DEVICES": "1",
+            },
+
+            "args": ["--seed_type", "MBProbSeederSLCamsWithROI", "--arch", "vit_small", "--patch_size", "16", "--data_root", 
+                "/home/emursha/datasets", "--dataset_name", "CUB", "--epochs", "10", "--metadata_root", "metadata/CUB", 
+                "--batch_size_per_gpu", "32", "--experiment_category", "training_fusion_imagenet_newsamplingroi", 
+                "--warmup_epochs", "0", "--num_workers", "8", "--search_hparameters", "true", "--evaluation_type", 
+                "1_4_heads_and_mean", 
+                "--iou_regions_path", "Extract_bboxs__CUB_with_vit_small_16_for_class_probability_with_dino_clfr_True/class_probability_dino_True_th0-5_nestedcontor_False_split_train_proxy0with_bg_rois_4bf69a8a-f6e5-451e-98f0-4e699adbeacf/1_4_heads_and_mean_on_train_list_imgs_with_best_head.pkl", 
+                "--proxy_training_set", "false", "--number_of_heads_for_fusion", "0", "--use_image_as_input_for_fusion", "true", 
+                "--exp_pre_name", "testing", "--cam_curve_interval", "0.001"]
+        },
+        
+        {
+            "name": "train_fusion_module_soufiane_newsampling_comet_draw_sampling_regions.py",
+            "type": "python",
+            "request": "launch",
+            "program": "train_fusion_module_soufiane_newsampling_comet_draw_sampling_regions.py",
+            "console": "integratedTerminal",
+            "env": {
+                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+                "CUDA_VISIBLE_DEVICES": "1",
+            },
+
+            "args": ["--seed_type", "MBProbSeederSLCamsWithROI", "--arch", "vit_small", "--patch_size", "16", "--data_root", 
+                "/home/emursha/datasets", "--dataset_name", "ILSVRC", "--epochs", "10", "--metadata_root", "metadata/ILSVRC", 
+                "--batch_size_per_gpu", "32", "--experiment_category", "training_fusion_imagenet_newsamplingroi", 
+                "--warmup_epochs", "0", "--num_workers", "8", "--evaluation_type", 
+                "1_4_heads_and_mean", 
+                "--iou_regions_path", "Extract_Bbox_on_training_proxy_set/Extract_bboxs_ILSVRC_with_vit_small_16_for_class_probability_with_dino_clfr_False/class_probability_dino_False_th0-75_nestedcontor_False_split_train_proxy0/1_4_heads_and_mean_on_train_list_imgs_with_best_head.pkl", 
+                "--proxy_training_set", "false", "--number_of_heads_for_fusion", "0", "--use_image_as_input_for_fusion", "true", 
+                "--exp_pre_name", "testing", "--cam_curve_interval", "0.001"]
+        },
+
+        {
+            "name": "train_fusion_module_soufiane_newsampling_comet_modeling_bg.py",
+            "type": "python",
+            "request": "launch",
+            "program": "train_fusion_module_soufiane_newsampling_comet_modeling_bg.py",
+            "console": "integratedTerminal",
+            "env": {
+                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+                "CUDA_VISIBLE_DEVICES": "1",
+            },
+            "args": ["--seed_type", "MBProbSeederSLCamsWithROI", "--arch", "vit_small", "--patch_size", "16", 
+                "--data_root", "/projets/smurtaza/datasets", "--dataset_name", "ILSVRC", "--epochs", "5", 
+                "--metadata_root", "metadata/ILSVRC", "--batch_size_per_gpu", "2", "--experiment_category", 
+                "testing_fusion_imagenet_newsamplingroi", "--warmup_epochs", "0", "--num_workers", "8", 
+                "--search_hparameters", "true", "--evaluation_type", "1_4_heads_and_mean", 
+                "--iou_regions_path", "Extract_bboxs_ILSVRC_with_vit_small_16_for_class_probability_with_dino_clfr_False/class_probability_dino_False_th0-75_nestedcontor_False_split_train_proxy1with_bg_rois_af1f25d4-2a23-40a2-8663-a14cf2d3ac64/1_4_heads_and_mean_on_train_list_imgs_with_best_head.pkl", 
+                "--proxy_training_set", "true", "--number_of_heads_for_fusion", "0", "--exp_pre_name", "testing",
+                "--use_image_as_input_for_fusion", "true", "--test_with_synth_inp", "false"]
+        },
+
+        {
+            "name": "train_fusion_module_soufiane_openimages.py",
+            "type": "python",
+            "request": "launch",
+            "program": "train_fusion_module_soufiane_openimages.py",
+            "console": "integratedTerminal",
+            "env": {
+                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+                "CUDA_VISIBLE_DEVICES": "1",
+            },
+
+            "args": ["--seed_type", "MBProbSeederSLCAMS", "--arch", "vit_small", "--patch_size", "16", "--data_root", "/home/emursha/datasets", 
+                "--dataset_name", "ILSVRC", "--epochs", "10", "--metadata_root", "metadata/ILSVRC", "--batch_size_per_gpu", "32", 
+                "--experiment_category", "training_fusion_imagenet", "--warmup_epochs", "0", "--num_workers", "8",
+            "--run_for_best_setting", "true"]
+
+            //For Open Images
+            // "args": ["--arch", "vit_small", "--patch_size", "16", "--data_root", "/home/emursha/datasets", "--dataset_name", "OpenImages", "--epochs", "8",
+            //     "--metadata_root", "metadata/OpenImages", "--batch_size_per_gpu", "32", "--experiment_name", "dino_testing_fusionmodule_OpenImages",
+            //     "--experiment_category", "testing", "--dino_pretrained", "dino_training_withouthpsearch_OpenImages_vit_small_16/lr_0_0005_mlr_1e-06_mt_0_899_cg_0_3_fll_30_we_30/best_loc_acc_checkpoint_fusion.pth",
+            //     "--search_hparameters", "true", "--mask_root", "/home/emursha/datasets/OpenImages/annotations", "--warmup_epochs", "0"]
+            
+            //Archieves
+            // "args": ["--arch", "vit_small", "--patch_size", "16", "--data_root", "/home/emursha/dino_original/dataset", "--dataset_name", "CUB", "--epochs", "50",
+            //     "--metadata_root", "/home/emursha/dino_original/metadata/CUB", "--batch_size_per_gpu", "32", "--experiment_name", "dino_train_sam_testing",
+            //     "--experiment_category", "testing", "--dino_pretrained", "/home/emursha/dino_original/output_train_sam/best_loc_acc_checkpoint.pth",
+            //     "--lr", "0.01", "--freeze_last_layer", "0", "--warmup_epochs", "0", "--min_lr", "1e-8", "--use_fp16", "False",
+            //     //below paramters about seeder
+            //     "--seed_type", "MBProbSeederSLCAMS", "--seed_min", "1", "--seed_max", "1", "--seed_min_p", "0.3", "--seed_fg_erode_k", "11",
+            //     "--seed_fg_erode_iter", "1", "--seed_ksz", "3", "--seed_seg_ignore_idx", "-255",
+            //     "--lmda_clsloss", "1", "--lmda_seed_loss", "1"]
+        },
+
+        {
+            "name": "train_fusion_module_soufiane_imagenet.py",
+            "type": "python",
+            "request": "launch",
+            "program": "train_fusion_module_soufiane_imagenet.py",
+            "env": {
+                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+                "CUDA_VISIBLE_DEVICES": "3"
+            },
+            "console": "integratedTerminal",
+            "args": ["--proxy_training_set", "true", "--arch", "vit_small", "--patch_size", "16", "--dataset_name", "ILSVRC", "--epochs", "10", "--batch_size_per_gpu", "16", "--experiment_name", "fusion_imagenet", "--experiment_category", "training", "--freeze_last_layer", "0", "--warmup_epochs", "0", "--seed_type", "MBProbSeederSLCAMS", "--seed_min", "1", "--seed_max", "1", "--seed_ksz", "3", "--seed_seg_ignore_idx", "-255"]
+            // "args": ["--arch", "vit_small", "--patch_size", "16", "--data_root", "/home/emursha/dino_original/dataset", "--dataset_name", "CUB", "--epochs", "50",
+            //     "--metadata_root", "/home/emursha/dino_original/metadata/CUB", "--batch_size_per_gpu", "32", "--experiment_name", "dino_train_sam_testing",
+            //     "--experiment_category", "testing", "--dino_pretrained", "/home/emursha/dino_original/output_train_sam/best_loc_acc_checkpoint.pth",
+            //     "--lr", "0.01", "--freeze_last_layer", "0", "--warmup_epochs", "0", "--min_lr", "1e-8", "--use_fp16", "False",
+            //     //below paramters about seeder
+            //     "--seed_type", "MBProbSeederSLCAMS", "--seed_min", "1", "--seed_max", "1", "--seed_min_p", "0.3", "--seed_fg_erode_k", "11",
+            //     "--seed_fg_erode_iter", "1", "--seed_ksz", "3", "--seed_seg_ignore_idx", "-255",
+            //     "--lmda_clsloss", "1", "--lmda_seed_loss", "1"]
+        },
+
+        {
+            "name": "train_fusion_module_soufiane_imagenet_eval.py",
+            "type": "python",
+            "request": "launch",
+            "program": "train_fusion_module_soufiane_imagenet_eval.py",
+            "env": {
+                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+                "CUDA_VISIBLE_DEVICES": "3"
+            },
+            "console": "integratedTerminal",
+            "args": ["--arch", "vit_small", "--patch_size", "16", "--dataset_name", "ILSVRC", "--epochs", "10", "--batch_size_per_gpu", "16", "--experiment_name", "fusion_imagenet", "--experiment_category", "training", "--freeze_last_layer", "0", "--warmup_epochs", "0", "--seed_type", "MBProbSeederSLCAMS", "--seed_min", "1", "--seed_max", "1", "--seed_ksz", "3", "--seed_seg_ignore_idx", "-255"]
+            // "args": ["--arch", "vit_small", "--patch_size", "16", "--data_root", "/home/emursha/dino_original/dataset", "--dataset_name", "CUB", "--epochs", "50",
+            //     "--metadata_root", "/home/emursha/dino_original/metadata/CUB", "--batch_size_per_gpu", "32", "--experiment_name", "dino_train_sam_testing",
+            //     "--experiment_category", "testing", "--dino_pretrained", "/home/emursha/dino_original/output_train_sam/best_loc_acc_checkpoint.pth",
+            //     "--lr", "0.01", "--freeze_last_layer", "0", "--warmup_epochs", "0", "--min_lr", "1e-8", "--use_fp16", "False",
+            //     //below paramters about seeder
+            //     "--seed_type", "MBProbSeederSLCAMS", "--seed_min", "1", "--seed_max", "1", "--seed_min_p", "0.3", "--seed_fg_erode_k", "11",
+            //     "--seed_fg_erode_iter", "1", "--seed_ksz", "3", "--seed_seg_ignore_idx", "-255",
+            //     "--lmda_clsloss", "1", "--lmda_seed_loss", "1"]
+        },
+
+        {
+            "name": "train_LRP_imagenet_eval.py",
+            "type": "python",
+            "request": "launch",
+            "program": "train_LRP_imagenet_eval.py",
+            "env": {
+                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+                "CUDA_VISIBLE_DEVICES": "3"
+            },
+            "console": "integratedTerminal",
+            "args": ["--arch", "vit_base", "--patch_size", "16", "--dataset_name", "ILSVRC", "--epochs", "10", "--batch_size_per_gpu", "4", "--experiment_name", "fusion_imagenet", "--experiment_category", "training", "--freeze_last_layer", "0", "--warmup_epochs", "0", "--seed_type", "MBProbSeederSLCAMS", "--seed_min", "1", "--seed_max", "1", "--seed_ksz", "3", "--seed_seg_ignore_idx", "-255"]
+            // "args": ["--arch", "vit_small", "--patch_size", "16", "--data_root", "/home/emursha/dino_original/dataset", "--dataset_name", "CUB", "--epochs", "50",
+            //     "--metadata_root", "/home/emursha/dino_original/metadata/CUB", "--batch_size_per_gpu", "32", "--experiment_name", "dino_train_sam_testing",
+            //     "--experiment_category", "testing", "--dino_pretrained", "/home/emursha/dino_original/output_train_sam/best_loc_acc_checkpoint.pth",
+            //     "--lr", "0.01", "--freeze_last_layer", "0", "--warmup_epochs", "0", "--min_lr", "1e-8", "--use_fp16", "False",
+            //     //below paramters about seeder
+            //     "--seed_type", "MBProbSeederSLCAMS", "--seed_min", "1", "--seed_max", "1", "--seed_min_p", "0.3", "--seed_fg_erode_k", "11",
+            //     "--seed_fg_erode_iter", "1", "--seed_ksz", "3", "--seed_seg_ignore_idx", "-255",
+            //     "--lmda_clsloss", "1", "--lmda_seed_loss", "1"]
+        },
+
+        {
+            "name": "main_dino_superivsed_train_compare_with_unsupervised.py",
+            "type": "python",
+            "request": "launch",
+            "program": "main_dino_superivsed_train_compare_with_unsupervised.py",
+            "env": {
+                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+                "CUDA_VISIBLE_DEVICES": "1",
+            },
+            "console": "integratedTerminal",
+            // "args": ["--arch", "vit_small", "--patch_size", "16", "--data_root", "/home/emursha/DGA1032_code/dino_data/dataset", 
+            //     "--dataset_name", "CUB", "--metadata_root", "metadata/CUB",
+            // "--experiment_category", "dino_testing_supervised_vs_upsupervised", "--experiment_name", "unsupervised",
+            // "--dino_pretrained", "/home/emursha/DGA1032_code/dino_data/output_train_sam/best_loc_acc_checkpoint.pth"]
+            "args": ["--arch", "vit_small", "--patch_size", "16", "--data_root", "/home/emursha/DGA1032_code/dino_data/dataset", 
+                "--dataset_name", "CUB", "--metadata_root", "metadata/CUB",
+            "--experiment_category", "dino_testing_supervised_vs_upsupervised", "--experiment_name", "supervised",
+            "--dino_pretrained", "dino_training_supervised_CUB_symmetric_mse_loss_vit_small_16/trial_45/best_loc_acc_checkpoint_fusion.pth"]
+        },
+
+        {
+            "name": "main_dino_train_new_aug.py",
+            "type": "python",
+            "module": "torch.distributed.launch",
+            "request": "launch",
+            // "program": "main_dino_train_cub_new_aug.py",
+            "env": {
+                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+                "CUDA_VISIBLE_DEVICES": "1,2",
+                "SLURM_TMPDIR": "/home/emursha"
+            },
+            "console": "integratedTerminal",
+            "args": ["--nproc_per_node", "2", "--master_port", "47769", "main_dino_train_new_aug.py",
+                "--arch", "vit_small", "--patch_size", "16", "--out_dim", "65536", "--norm_last_layer", "false", "--warmup_teacher_temp", "0.04", 
+                "--teacher_temp", "0.07", "--warmup_teacher_temp_epochs", "30", "--use_fp16", "false", "--weight_decay", "0.04", "--weight_decay_end", "0.4", 
+                "--clip_grad", "0", "--batch_size_per_gpu", "64", "--epochs", "800", "--freeze_last_layer", "1", "--lr", "0.0005", "--warmup_epochs", "10", 
+                "--min_lr", "1e-05", "--global_crops_scale", "0.25", "1.0", "--local_crops_scale", "0.05", "0.25", "--local_crops_number", "10", "--seed", "0", 
+                "--num_workers", "10", "--optimizer", "adamw", "--momentum_teacher", "0.996", "--use_bn_in_head", "false", "--drop_path_rate", "0.1",
+                "--data_root", "/home/emursha/datasets", "--dataset_name", "ILSVRC", 
+                "--experiment_category", "dino_testing_imagenet_new_aug", "--metadata_root", "metadata/ILSVRC",
+                "--experiment_name", "''", "--local_crops_scale", "0.05", "0.4"],
+            // "args": ["--nproc_per_node", "2", "main_dino_train_cub_new_aug.py",
+            //     "--MASTER_PORT", "29502", "--momentum_teacher", "0.898", "--use_fp16", "false", "--clip_grad", "0.3", "--epochs=200", "--freeze_last_layer", "30", 
+            //     "--warmup_epochs", "30", "--lr", "2.5e-06", "--min_lr", "1e-08", "--patch_size", "16", "--use_fp16", "false", "--num_workers", "16", 
+            //     "--search_hparameters", "false", "--arch", "vit_small", "--data_root", "/home/emursha/datasets", "--dataset_name", "ILSVRC", 
+            //     "--experiment_category", "dino_testing", "--metadata_root", "metadata/ILSVRC", "--batch_size_per_gpu", "1",
+            //      "--experiment_name", "''", "--local_crops_scale", "0.05", "0.4"]
+        },
+
+        {
+            "name": "main_dino_eval_extract_bbox.py",
+            "type": "python",
+            "request": "launch",
+            "program": "main_dino_eval_extract_bbox.py",
+            "env": {
+                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+                "CUDA_VISIBLE_DEVICES": "1",
+            },
+            "console": "integratedTerminal",
+            "args": ["--score_calulcation_method", "class_probability", "--proxy_training_set", "false", "--split", "train", "--bbox_min_size", "0.04", 
+                "--use_dino_classifier", "true", "--evaluation_type", "1_4_heads_and_mean", "--num_samples_to_save", "0", "--data_root", "/projets/smurtaza/wsol/dino_data/dataset", 
+                "--dataset_name", "CUB", "--metadata_root", "metadata/CUB", "--arch", "vit_small", "--patch_size", "16", "--batch_size_per_gpu", "1", 
+                "--num_workers", "8", "--cam_curve_interval", "0.5", "--search_hparameters", "false", "--nested_contours", "false", "--save_final_cams", "false", "--num_samples_to_save", "100",
+                "--num_labels", "2", "--dino_pretrained", "/projets/smurtaza/wsol/dino_data/output_train_sam/best_loc_acc_checkpoint.pth",
+                "--num_labels", "200"]// , "--resize_size", "512", "--crop_size", "448"]
+            //commented on ericsson adn copy pentos data
+            // "args": ["--score_calulcation_method", "class_probability",
+            //     "--bbox_min_size", "0.1",
+            //     "--use_dino_classifier", "true", 
+            //     "--evaluation_type", "1_4_heads_and_mean", 
+            //     "--num_samples_to_save", "100", 
+            //     "--data_root", "/projets/smurtaza/datasets", "--dataset_name", "ILSVRC", 
+            //     "--metadata_root", "metadata/ILSVRC", "--arch", "vit_small", "--patch_size", "16", "--batch_size_per_gpu", "64", "--num_workers", "8", 
+            //     "--cam_curve_interval", "0.5",
+            //     "--search_hparameters", "false",
+            //     "--nested_contours", "true",
+            //     "--save_final_cams", "false"],
+
+
+            // "args": ["--score_calulcation_method", "class_probability",
+            //     "--bbox_min_size", "0.1",
+            //     "--use_dino_classifier", "true", 
+            //     "--evaluation_type", "1_4_heads_and_mean", 
+            //     "--num_samples_to_save", "100", 
+            //     "--data_root", "/projets/smurtaza/datasets", "--dataset_name", "ILSVRC", 
+            //     "--metadata_root", "metadata/ILSVRC", "--arch", "vit_small", "--patch_size", "16", "--batch_size_per_gpu", "64", "--num_workers", "8", 
+            //     "--cam_curve_interval", "0.5",
+            //     "--search_hparameters", "false",
+            //     "--nested_contours", "true",
+            //     "--save_final_cams", "false"],
+        },
+
+        {
+            "name": "main_dino_train_cub.py",
+            "type": "python",
+            "request": "launch",
+            "program": "main_dino_train_cub.py",
+            "env": {
+                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+                "CUDA_VISIBLE_DEVICES": "3",
+                "SLURM_TMPDIR": "/home/emursha"
+            },
+            "console": "integratedTerminal",
+            "args": ["--MASTER_PORT", "29502", "--momentum_teacher", "0.898", "--use_fp16", "false", "--clip_grad", "0.3", "--epochs=200", "--freeze_last_layer", "30", 
+                "--warmup_epochs", "30", "--lr", "2.5e-06", "--min_lr", "1e-08", "--patch_size", "16", "--use_fp16", "false", "--num_workers", "16", 
+                "--search_hparameters", "false", "--arch", "vit_small", "--data_root", "/home/emursha/datasets", "--dataset_name", "OpenImages", 
+                "--experiment_category", "dino_testing", "--metadata_root", "metadata/OpenImages", "--batch_size_per_gpu", "1",
+                 "--experiment_name", "''", "--mask_root", "/home/emursha/datasets/OpenImages/annotations", "--local_crops_scale", "0.05", "0.4"]
+            // "args": ["--arch", "vit_small", "--patch_size", "8", "--data_root", "/home/emursha/datasets", "--dataset_name", "OpenImages", 
+            //     "--experiment_category", "dino_testing", "--epochs=200", "--metadata_root", "metadata/OpenImages", "--batch_size_per_gpu", "16", "--experiment_name", "", 
+            //     "--dino_pretrained", "/home/emursha/DGA1032_code/dino_data/output_train_sam/best_loc_acc_checkpoint.pth", 
+            //      "--use_fp16", "false", "--search_hparameters", "true", "--mask_root", "/home/emursha/datasets/OpenImages/annotations"],
+            // "args": ["--arch", "vit_small", "--patch_size", "8", "--data_root", "/home/emursha/DGA1032_code/dino_data/dataset", "--dataset_name", "CUB", 
+            //     "--experiment_category", "dino_testing", "--epochs=200", "--metadata_root", "metadata/CUB", "--batch_size_per_gpu", "32", "--experiment_name", "vit_base", 
+            //     "--dino_pretrained", "/home/emursha/DGA1032_code/dino_data/output_train_sam/best_loc_acc_checkpoint.pth", 
+            //      "--use_fp16", "false", "--search_hparameters", "true"],
+            // "args": ["--arch", "vit_small", "--patch_size", "16", "--data_root", "/home/emursha/DGA1032_code/dino_data/dataset", "--dataset_name", "CUB", 
+            //     "--experiment_category", "dino_testing", "--epochs=30", "--metadata_root", "metadata/CUB", "--batch_size_per_gpu", "16", "--experiment_name", "vit_base", 
+            //     "--dino_pretrained", "/home/emursha/DGA1032_code/dino_data/output_train_sam/best_loc_acc_checkpoint.pth", "--momentum_teacher", "0.898", "--lr", "2.5e-06", 
+            //     "--freeze_last_layer", "1", "--warmup_epochs", "10", "--min_lr", "1e-08", "--use_fp16", "false", "--clip_grad", "0.3", "--wd_lmbda", "0.1", 
+            //     "--out_dim", "8192", "--search_hparameters", "false"]
+        },
+
+        {
+            "name": "main_dino_superivsed_train.py",
+            "type": "python",
+            "request": "launch",
+            "program": "main_dino_superivsed_train.py",
+            "env": {
+                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+                "CUDA_VISIBLE_DEVICES": "2",
+                "SLURM_TMPDIR": "/home/emursha"
+            },
+            "console": "integratedTerminal",
+            "args": ["--arch", "vit_small", "--patch_size", "16", "--data_root", "/home/emursha/DGA1032_code/dino_data/dataset", "--dataset_name", "CUB", 
+                     "--experiment_category", "dino_testing_supervised", "--epochs=200", "--metadata_root", "metadata/CUB", "--batch_size_per_gpu", "16", "--experiment_name", "vit_base", 
+                     "--freeze_last_layer", "1", "--min_lr", "1e-08", "--use_fp16", "false", "--clip_grad", "0", 
+                     "--out_dim", "200", "--search_hparameters", "false", "--consistency_loss", "negative_log_loss",
+                    "--global_crops_scale", "0.25", "1.0", "--local_crops_scale", "0.05", "0.25", "--local_crops_number", "10"]
+                     //"--momentum_teacher", "0.898", "--lr", "2.5e-06"]
+                     //Paramters to be searched: momentum_teacher, lr, warmup_teacher_temp, teacher_temp, warmup_teacher_temp_epochs
+        },
+
+        {
+            "name": "train_fusion_task_within_dino.py",
+            "type": "python",
+            "request": "launch",
+            "program": "train_fusion_task_within_dino.py",
+            "env": {
+                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+                "CUDA_VISIBLE_DEVICES": "2"
+            },
+            "console": "integratedTerminal",
+            "args": ["--arch", "vit_small", "--patch_size", "16", "--base_data_path", "/home/emursha/DGA1032_code/dino_data/", "--dataset_name", "CUB", "--epochs", "10", "--batch_size_per_gpu", "32",
+                 "--experiment_name", "fusion", "--experiment_category", "train_fusion_task_within_dino_CUB", "--freeze_last_layer", "0", "--warmup_epochs", "0", 
+                 "--seed_type", "MBProbSeederSLCAMS", "--seed_min", "1", "--seed_max", "1", "--seed_ksz", "3", "--seed_seg_ignore_idx", "-255"]
+        },
+
+        {
+            "name": "train_fusion_module_soufiane_imagenet_eval_fusion_unet.py",
+            "type": "python",
+            "request": "launch",
+            "program": "train_fusion_module_soufiane_imagenet_eval_fusion_unet.py",
+            "env": {
+                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+                "CUDA_VISIBLE_DEVICES": "2"
+            },
+            "console": "integratedTerminal",
+            "args": ["--arch", "vit_small", "--patch_size", "16", "--dataset_name", "ILSVRC", "--epochs", "10", "--batch_size_per_gpu", "16", "--experiment_name", "fusion_imagenet", "--experiment_category", "training", "--freeze_last_layer", "0", "--warmup_epochs", "0", "--seed_type", "MBSeederSLCAMS", "--seed_min", "1", "--seed_max", "1", "--seed_ksz", "3", "--seed_seg_ignore_idx", "-255"]
+            // "args": ["--arch", "vit_small", "--patch_size", "16", "--data_root", "/home/emursha/dino_original/dataset", "--dataset_name", "CUB", "--epochs", "50",
+            //     "--metadata_root", "/home/emursha/dino_original/metadata/CUB", "--batch_size_per_gpu", "32", "--experiment_name", "dino_train_sam_testing",
+            //     "--experiment_category", "testing", "--dino_pretrained", "/home/emursha/dino_original/output_train_sam/best_loc_acc_checkpoint.pth",
+            //     "--lr", "0.01", "--freeze_last_layer", "0", "--warmup_epochs", "0", "--min_lr", "1e-8", "--use_fp16", "False",
+            //     //below paramters about seeder
+            //     "--seed_type", "MBProbSeederSLCAMS", "--seed_min", "1", "--seed_max", "1", "--seed_min_p", "0.3", "--seed_fg_erode_k", "11",
+            //     "--seed_fg_erode_iter", "1", "--seed_ksz", "3", "--seed_seg_ignore_idx", "-255",
+            //     "--lmda_clsloss", "1", "--lmda_seed_loss", "1"]
+        },
+
+        {
+            "name": "train_fusion_module_soufiane_openimages_eval_fusion_unet_plot_curve_probalistic.py",
+            "type": "python",
+            "request": "launch",
+            "program": "train_fusion_module_soufiane_openimages_eval_fusion_unet_plot_curve_probalistic.py",
+            "env": {
+                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+                "CUDA_VISIBLE_DEVICES": "1"
+            },
+            "console": "integratedTerminal",
+            // "args": ["--arch", "vit_small", "--patch_size", "16", "--dataset_name", "ILSVRC", "--epochs", "10", "--batch_size_per_gpu", "1", "--experiment_name", 
+            //     "test", "--experiment_category", "dino_testing_for_prob_curve", "--freeze_last_layer", "0", "--warmup_epochs", "0", "--seed_type", "MBSeederSLCAMS", 
+            //     "--seed_min", "1", "--seed_max", "1", "--seed_ksz", "3", "--seed_seg_ignore_idx", "-255",
+            //      "--metadata_root", "metadata/ILSVRC"]
+            "args": ["--arch", "vit_small", "--patch_size", "16", "--dataset_name", "OpenImages", "--epochs", "10", "--batch_size_per_gpu", "1", "--experiment_name", 
+                "test", "--experiment_category", "dino_testing_for_prob_curve", "--freeze_last_layer", "0", "--warmup_epochs", "0", "--seed_type", "MBSeederSLCAMS", 
+                "--seed_min", "1", "--seed_max", "1", "--seed_ksz", "3", "--seed_seg_ignore_idx", "-255",
+                "--mask_root", "/home/emursha/datasets/OpenImages/annotations", "--metadata_root", "metadata/OpenImages",
+            "--dino_pretrained", "dino_training_withouthpsearch_OpenImages_vit_small_16/lr_0_0005_mlr_1e-06_mt_0_899_cg_0_3_fll_30_we_30/best_loc_acc_checkpoint_fusion.pth"]
+            // "args": ["--arch", "vit_small", "--patch_size", "16", "--data_root", "/home/emursha/dino_original/dataset", "--dataset_name", "CUB", "--epochs", "50",
+            //     "--metadata_root", "/home/emursha/dino_original/metadata/CUB", "--batch_size_per_gpu", "32", "--experiment_name", "dino_train_sam_testing",
+            //     "--experiment_category", "testing", "--dino_pretrained", "/home/emursha/dino_original/output_train_sam/best_loc_acc_checkpoint.pth",
+            //     "--lr", "0.01", "--freeze_last_layer", "0", "--warmup_epochs", "0", "--min_lr", "1e-8", "--use_fp16", "False",
+            //     //below paramters about seeder
+            //     "--seed_type", "MBProbSeederSLCAMS", "--seed_min", "1", "--seed_max", "1", "--seed_min_p", "0.3", "--seed_fg_erode_k", "11",
+            //     "--seed_fg_erode_iter", "1", "--seed_ksz", "3", "--seed_seg_ignore_idx", "-255",
+            //     "--lmda_clsloss", "1", "--lmda_seed_loss", "1"]
+        },
+        {
+            "name": "train_fusion_module_soufiane_imagenet_eval_fusion_unet_plot_curve_probalistic.py",
+            "type": "python",
+            "request": "launch",
+            "program": "train_fusion_module_soufiane_imagenet_eval_fusion_unet_plot_curve_probalistic.py",
+            "env": {
+                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+                "CUDA_VISIBLE_DEVICES": "1"
+            },
+            "console": "integratedTerminal",
+            "args": ["--arch", "vit_small", "--patch_size", "16", "--dataset_name", "ILSVRC", "--epochs", "10", "--batch_size_per_gpu", "1", "--experiment_name", 
+                "test", "--experiment_category", "dino_testing_for_prob_curve_imagenet", "--freeze_last_layer", "0", "--warmup_epochs", "0", "--seed_type", "MBSeederSLCAMS", 
+                "--seed_min", "1", "--seed_max", "1", "--seed_ksz", "3", "--seed_seg_ignore_idx", "-255",
+                 "--metadata_root", "metadata/ILSVRC"]
+        },
+        {
+            "name": "train_fusion_module_soufiane_openimages_eval_best_head.py",
+            "type": "python",
+            "request": "launch",
+            "program": "train_fusion_module_soufiane_openimages_eval_best_head.py",
+            "env": {
+                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+                "CUDA_VISIBLE_DEVICES": "1"
+            },
+            "console": "integratedTerminal",
+            "args": ["--arch", "vit_small", "--patch_size", "16", "--dataset_name", "ILSVRC", "--epochs", "10", "--batch_size_per_gpu", "1", "--experiment_name", 
+                "test", "--experiment_category", "dino_testing_for_prob_curve", "--freeze_last_layer", "0", "--warmup_epochs", "0", "--seed_type", "MBSeederSLCAMS", 
+                "--seed_min", "1", "--seed_max", "1", "--seed_ksz", "3", "--seed_seg_ignore_idx", "-255", "--metadata_root", "metadata/ILSVRC",
+                "--data_root", "/home/emursha/datasets"]
+            // "args": ["--arch", "vit_small", "--patch_size", "16", "--dataset_name", "CUB", "--epochs", "10", "--batch_size_per_gpu", "1", "--experiment_name", 
+            //     "test", "--experiment_category", "dino_testing_for_prob_curve", "--freeze_last_layer", "0", "--warmup_epochs", "0", "--seed_type", "MBSeederSLCAMS", 
+            //     "--seed_min", "1", "--seed_max", "1", "--seed_ksz", "3", "--seed_seg_ignore_idx", "-255", "--metadata_root", "metadata/CUB",
+            //     "--dino_pretrained", "/home/emursha/DGA1032_code/dino_data/output_train_sam/best_loc_acc_checkpoint.pth",
+            //     "--data_root", "/home/emursha/DGA1032_code/dino_data/dataset"]
+            // "args": ["--arch", "vit_small", "--patch_size", "16", "--dataset_name", "OpenImages", "--epochs", "10", "--batch_size_per_gpu", "1", "--experiment_name", 
+            //     "test", "--experiment_category", "dino_testing_for_prob_curve", "--freeze_last_layer", "0", "--warmup_epochs", "0", "--seed_type", "MBSeederSLCAMS", 
+            //     "--seed_min", "1", "--seed_max", "1", "--seed_ksz", "3", "--seed_seg_ignore_idx", "-255",
+            //     "--mask_root", "/home/emursha/datasets/OpenImages/annotations", "--metadata_root", "metadata/OpenImages",
+            //     "--dino_pretrained", "dino_training_withouthpsearch_OpenImages_vit_small_16/lr_0_0005_mlr_1e-06_mt_0_899_cg_0_3_fll_30_we_30/best_loc_acc_checkpoint_fusion.pth"],
+            //     "--data_root", "/home/emursha/datasets"
+        },
+
+        {
+            "name": "main_dino_scorecam_negative_eval.py",
+            "type": "python",
+            "request": "launch",
+            "program": "main_dino_scorecam_negative_eval.py",
+            "env": {
+                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+                "CUDA_VISIBLE_DEVICES": "3"
+            },
+            "console": "integratedTerminal",
+            "args": ["--dataset", "ILSVRC", "--split", "test", "--arch", "vit_base", "--patch_size", "8", "--data_root", "/home/emursha/datasets", "--dataset_name", "ILSVRC", 
+                "--epochs=10", "--metadata_root", "metadata/ILSVRC", "--batch_size_per_gpu", "8", "--experiment_name", "dino_test_ON_ILSVRC_for scorecam", "--dino_pretrained", 
+                "/home/emursha/DGA1032_code/dino_data/output_train_sam/best_loc_acc_checkpoint.pth", "--lr", "0.0002", "--freeze_last_layer", "0", "--warmup_epochs", "0", "--min_lr", "1e-8", 
+                "--use_fp16", "False"],
+            // "args": ["--dataset", "CUB", "--split", "test", "--arch", "vit_small", "--patch_size", "16", "--data_root", "dataset", "--dataset_name", "CUB", 
+            //     "--epochs=10", "--metadata_root", "metadata/CUB", "--batch_size_per_gpu", "8", "--experiment_name", "dino_train_sam_testing", "--dino_pretrained", 
+            //     "output_train_sam/best_loc_acc_checkpoint.pth", "--lr", "0.0002", "--freeze_last_layer", "0", "--warmup_epochs", "0", "--min_lr", "1e-8", 
+            //     "--use_fp16", "False"],
+        },
+
+        {
+            "name": "eval_linear_on_cub.py",
+            "type": "python",
+            "request": "launch",
+            "program": "eval_linear_on_cub.py",
+            "env": {
+                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+                "CUDA_VISIBLE_DEVICES": "2"
+            },
+            "console": "integratedTerminal",
+            // "args": ["--evaluate", "--arch", "vit_base", "--patch_size", "8", "--n_last_blocks", "1", "--avgpool_patchtokens", "true", "--data_path", "/path/to/dataset", 
+            //     "--metadata_root", "metadata/ILSVRC", "--dataset_name", "ILSVRC", "--data_root", "/home/emursha/datasets", "--batch_size_per_gpu", "2"],
+            "args": ["--arch", "vit_small", "--patch_size", "16", "--data_path", "/path/to/dataset", "--batch_size_per_gpu", "32",
+                "--metadata_root", "metadata/CUB", "--dataset_name", "CUB", "--data_root", "/home/emursha/DGA1032_code/dino_data/dataset",
+                "--pretrained_weights", "/home/emursha/DGA1032_code/dino_data/output_train_sam/best_loc_acc_checkpoint.pth",
+                "--num_labels", "200", "--search_hparameters", "true", "--epochs", "1"],
+        },
+
+        {
+            "name": "eval_linear.py",
+            "type": "python",
+            "request": "launch",
+            "program": "eval_linear.py",
+            "env": {
+                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+                "CUDA_VISIBLE_DEVICES": "2"
+            },
+            "console": "integratedTerminal",
+            // "args": ["--evaluate", "--arch", "vit_base", "--patch_size", "8", "--n_last_blocks", "1", "--avgpool_patchtokens", "true", "--data_path", "/path/to/dataset", 
+            //     "--metadata_root", "metadata/ILSVRC", "--dataset_name", "ILSVRC", "--data_root", "/home/emursha/datasets", "--batch_size_per_gpu", "2"],
+            "args": ["--evaluate", "--arch", "vit_small", "--patch_size", "8", "--data_path", "/path/to/dataset", 
+                "--metadata_root", "metadata/ILSVRC", "--dataset_name", "ILSVRC", "--data_root", "/home/emursha/datasets", "--batch_size_per_gpu", "1"],
+        },
+
+        {
+            "name": "eval_linear_original.py",
+            "type": "python",
+            "request": "launch",
+            "program": "eval_linear_original.py",
+            "env": {
+                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+                "CUDA_VISIBLE_DEVICES": "1"
+            },
+            "console": "integratedTerminal",
+            "args": ["--arch", "vit_small", "--patch_size", "16", "--data_path", "/path/to/dataset", 
+                "--metadata_root", "metadata/CUB", "--dataset_name", "CUB", "--data_root", 
+                "/projets/smurtaza/wsol/dino_data/dataset", "--batch_size_per_gpu", "32", "--output_dir", "test", "--resize_size", "512", "--crop_size", "448",
+             "--evaluate", "--linear_classifier", "linear_classifier_on_CUB_dataset_patch_16-pretrained_dino/checkpoint.pth.tar",
+            "--num_labels", "200"],
+        },
+
+        {
+            "name": "eval_linear_original_cub.py",
+            "type": "python",
+            "request": "launch",
+            "program": "eval_linear_original.py",
+            "env": {
+                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+                "CUDA_VISIBLE_DEVICES": "1"
+            },
+            "console": "integratedTerminal",
+            "args": ["--arch", "vit_small", "--patch_size", "16", "--data_path", "/path/to/dataset", 
+                "--metadata_root", "metadata/CUB", "--dataset_name", "CUB", "--data_root", 
+                "/home/emursha/DGA1032_code/dino_data/dataset", "--batch_size_per_gpu", "32", "--output_dir", "test",
+                "--num_labels", "200", 
+                "--pretrained_weights", "/home/emursha/DGA1032_code/dino_data/output_train_sam/best_loc_acc_checkpoint.pth"],
+        },
+
+        {
+            "name": "eval_linear_1.py",
+            "type": "python",
+            "request": "launch",
+            "program": "eval_linear_1.py",
+            "env": {
+                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+                "CUDA_VISIBLE_DEVICES": "1"
+            },
+            "console": "integratedTerminal",
+            "args": ["--evaluate", "--arch", "vit_base", "--patch_size", "8", "--n_last_blocks", "1", 
+                "--avgpool_patchtokens", "false", "--data_path", "/home/emursha/datasets/ILSVRC",
+                "--batch_size_per_gpu", "1",
+                "--metadata_root", "metadata/ILSVRC", "--dataset_name", "ILSVRC", "--data_root", "/home/emursha/datasets", "--batch_size_per_gpu", "1",
+                "--lrp_method", "last_layer_attn"]//, "--pretrained_weights", "linear_classifier_checkpoint/checkpoint.pth.tar"]
+            // "args": ["--evaluate", "--arch", "vit_base", "--patch_size", "8", "--n_last_blocks", "1", "--avgpool_patchtokens", "false", "--data_path", "/path/to/dataset", 
+            //     "--metadata_root", "metadata/ILSVRC", "--dataset_name", "ILSVRC", "--data_root", "/home/emursha/datasets", "--batch_size_per_gpu", "128", "--pretrained_weights", "linear_classifier_checkpoint/checkpoint.pth.tar"],
+            // "args": ["--evaluate", "--arch", "vit_base", "--patch_size", "8", "--n_last_blocks", "1", "--avgpool_patchtokens", "true", "--data_path", "/path/to/dataset", 
+            //     "--metadata_root", "metadata/ILSVRC", "--dataset_name", "ILSVRC", "--data_root", "/home/emursha/datasets", "--batch_size_per_gpu", "2", "--experiment_category", "testing", "--output_dir", "testing_fusion"],
+        },
+
+        {
+            "name": "train_fusion_module_with_marco_formul_eval.py",
+            "type": "python",
+            "request": "launch",
+            "program": "train_fusion_module_with_marco_formul_eval.py",
+            "env": {
+                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+                "CUDA_VISIBLE_DEVICES": "3"
+            },
+            "console": "integratedTerminal",
+            // "args": ["--evaluate", "--arch", "vit_base", "--patch_size", "8", "--n_last_blocks", "1", "--avgpool_patchtokens", "true", "--data_path", "/path/to/dataset", 
+            //     "--metadata_root", "metadata/ILSVRC", "--dataset_name", "ILSVRC", "--data_root", "/home/emursha/datasets", "--batch_size_per_gpu", "2"],
+            "args": ["--proxy_training_set", "true", "--arch", "vit_base", "--patch_size", "8", "--data_path", "/path/to/dataset", 
+                "--epochs", "1","--experiment_category", "testing", "--metadata_root", "metadata/ILSVRC", "--dataset_name", "ILSVRC", "--data_root", "/home/emursha/datasets", "--batch_size_per_gpu", "128", "--output_dir", "testing_fusion", "--proxy_training_set", "true"],
+        },
+
+        {
+            "name": "main_dino_eval_extract_bbox_extract_table.py",
+            "type": "python",
+            "request": "launch",
+            "program": "main_dino_eval_extract_bbox_extract_table.py",
+            "console": "integratedTerminal",
+        },
+
+        {
+            "name": "visualize_attention.py",
+            "type": "python",
+            "request": "launch",
+            "program": "visualize_attention.py",
+            "console": "integratedTerminal",
+            "args": ["--image_path", "/home/emursha/datasets/Ericsson/AngmeringMay2020_inputs/DJI_0384.JPG"]
+        },
+
+        {
+            "name": "plots_scipt/plot_new_roi_sampling_regions.py",
+            "type": "python",
+            "request": "launch",
+            "program": "plots_scipt/plot_new_roi_sampling_regions.py",
+            "console": "integratedTerminal",
+        }
+    ]
+}
