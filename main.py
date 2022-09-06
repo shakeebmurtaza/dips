@@ -378,26 +378,6 @@ def normalize_scoremap(attention, scores):
             attention[i][j] = ((attention[i][j] - attention[i][j].min()) / (attention[i][j].max() - attention[i][j].min()))*scores[i][j]
     return attention
 
-# def evaluate_fusionmodule_for_six_heads(epoch, split, model, loaders, args, eval_on_Maxbox_V2 = True):
-#     print("Evaluate epoch {}, split {}".format(epoch, split))
-#     model.eval()
-#     loc_score = None
-    
-#     cam_computer = CAMComputer_for_six_heads(
-#         model=model,
-#         loader=loaders[split],
-#         metadata_root=os.path.join(args.metadata_root, split),
-#         mask_root=args.mask_root,
-#         iou_threshold_list=args.iou_threshold_list,
-#         dataset_name=args.dataset_name,
-#         split=split,
-#         cam_curve_interval= 0.001 if split == 'test' else args.cam_curve_interval,
-#         multi_contour_eval=False,#args.multi_contour_eval,
-#         log_folder=args.log_folder,
-#     )
-#     cam_performance = cam_computer.compute_and_evaluate_cams()
-
-#     return cam_performance
 
 def evaluate_fusionmodule(epoch, split, model, classifier, loaders, fusioscorenet, args, evaluate_on_MaxBoxV2 = False):
     print("Evaluate epoch {}, split {}".format(epoch, split))
@@ -508,17 +488,7 @@ def train_fusionmodule(args, trial):
 
     data_loader = loaders['train_fusion']
 
-    # empty_rois, empty_rois_lst_without_aug = find_empty_rois(data_loader)
-    # with (Path(args.output_dir) / "empty_rois.txt").open("a") as f:
-    #     for lin in empty_rois:
-    #         f.write(f'{lin}\n')
-
-    # with (Path(args.output_dir) / "empty_rois_without_aug.txt").open("a") as f:
-    #     for lin in empty_rois_lst_without_aug:
-    #         f.write(f'{lin}\n')
-
-    # print('rois saved at', (Path(args.output_dir) / "empty_rois.txt"))
-    # quit()
+   
 
     args.arch = args.arch.replace("deit", "vit")
 
@@ -526,14 +496,7 @@ def train_fusionmodule(args, trial):
         teacher = vits.__dict__[args.arch](patch_size=args.patch_size)
 
     utils.load_pretrained_weights(teacher, args.dino_pretrained, 'teacher', args.arch, args.patch_size)
-    # if args.dataset_name != "ILSVRC" and args.dataset_name != "Ericsson":
-    #     state_dict = torch.load(args.dino_pretrained, map_location="cpu")['teacher']
-    #     state_dict = {k.replace("module.", ""): v for k, v in state_dict.items()}
-    #     state_dict = {k.replace("backbone.", ""): v for k, v in state_dict.items()}
-    #     teacher.load_state_dict(state_dict, strict=False)
-    #     print(f'loaded teacher weights from  {args.dino_pretrained}')
-    # else:
-    #     utils.load_pretrained_weights(teacher, '', 'teacher', args.arch, args.patch_size)
+    
 
     teacher = teacher.cuda()
     teacher.eval()
@@ -561,18 +524,11 @@ def train_fusionmodule(args, trial):
 
     crf_loss = ConRanFieldFcams(weight=args.lmda_crf_fc, sigma_rgb=15.0, sigma_xy=100.0, scale_factor=1.0, device='cuda')#nn.CrossEntropyLoss(ignore_index=args.seed_seg_ignore_idx)
 
-    # model_resnet = models.resnet50(pretrained=True)
-    # model_resnet.fc = nn.Sequential(nn.Linear(2048, 200))
-    # model_resnet.load_state_dict(torch.load('/home/emursha/survey_mil/cam_gramcam_resnet_new/weights_best'))
     
     if args.use_classifier or args.classifier_for_top1_top5 != None:
         if (not args.use_dino_classifier) and (not args.evaluate):
             classifier = None
             if args.dataset_name == 'OpenImages':
-                # classifier = resnet50()
-                # checkpoint = torch.load(args.resnet_pretrained)#'/home/emursha/DGA1032_code/wsolevaluation/train_log/OpenImages_resnet50_CAM/last_checkpoint.pth.tar')
-                # classifier.load_state_dict(checkpoint['state_dict'], strict=True)
-                # print('resnet weights loaded from', args.resnet_pretrained)
                 classifier = resnet50_wsol_eval('cam', num_classes=args.num_labels, large_feature_map=False, pretrained=False)#models.resnet50(pretrained=True).cuda()
                 classifier_weight_path = 'wsol_eval_extract_bbox/wsol/last_checkpoint_resnet_openimages.pth.tar'
                 state_dict = torch.load(classifier_weight_path)
@@ -620,20 +576,13 @@ def train_fusionmodule(args, trial):
         classifier.eval()
         classifier = classifier.cuda()
 
-        # acc = _compute_accuracy(model_resnet, loaders['test'])
 
         for p in classifier.parameters():
             p.requires_grad = False
 
-    # test_acc = evaluate_fusionmodule(-1, 'test', teacher, classifier, loaders, fusioscore_net, args, evaluate_on_MaxBoxV2 = True)
     
     if args.evaluate or args.evaluate_only_on_attetion_maps:
-        # if args.classifier_for_top1_top5 !=None:
-        #     is_dino_head = True if args.classifier_for_top1_top5 == 'Dino_Head' else False
-        #     acc = _compute_accuracy(classifier, loaders['test'], teacher, is_dino_head, args.n_last_blocks, args)
-        #     print('Classification Accuracy is', acc)
-        #     with (Path(args.log_folder) / f"test_cls_acc.txt").open("a") as f:
-        #         f.write(json.dumps({'cls_acc': acc}) + "\n")
+        
 
         args.cam_curve_interval = 0.001
         if not args.evaluate_only_on_attetion_maps:
@@ -649,19 +598,9 @@ def train_fusionmodule(args, trial):
         optimizer = torch.optim.SGD(params_groups, lr=args.lr, momentum=0.9, nesterov=True)  # lr is set by scheduler
     elif args.optimizer == "lars":
         optimizer = utils.LARS(params_groups)  # to use with convnet and large batches
-    # elif args.optimizer == 'sam':
-    #     base_optimizer = torch.optim.SGD  # define an optimizer for the "sharpness-aware" update
-    #     optimizer = SAM(params_groups, base_optimizer, lr=0, momentum=0.9)
-    #     print('will optimze with SAM')
-
-    # ============ init schedulers ... ============
+   
     num_gpus = 1
-    # lr_schedule = utils.cosine_scheduler(
-    #     args.lr, #* (args.batch_size_per_gpu * num_gpus) / 256.,  # linear scaling rule
-    #     args.min_lr,
-    #     args.epochs, len(data_loader),
-    #     warmup_epochs=args.warmup_epochs,
-    # )
+    
 
     lr_schedule = lrs.StepLR(
         optimizer,
@@ -671,7 +610,6 @@ def train_fusionmodule(args, trial):
 
     print(f"Loss, optimizer and schedulers ready.")
 
-    # # ============ optionally resume training ... ============
     to_restore = {"epoch": 0, 'best_eval_acc': 0}
     utils.restart_from_checkpoint(
         os.path.join(args.output_dir, "checkpoint.pth"),
@@ -701,24 +639,13 @@ def train_fusionmodule(args, trial):
     loss_track_epochs = []
     loss_track_epochs_vline = [0]
 
-    # acc = _compute_accuracy(classifier, loaders['test'], teacher, args.use_dino_classifier, args.n_last_blocks)
-    # test_acc = evaluate_fusionmodule(-2, 'val', teacher, model_resnet, loaders, fusioscore_net, args)
-    # acc = _compute_accuracy(model_resnet, loaders['test'])
-    # eval_acc = evaluate_fusionmodule_for_six_heads(-1, 'test', teacher, loaders, args, eval_on_Maxbox_V2 = True)
-    # print(eval_acc)
-    # quit()
-
-    # seed_method = MBProbSeederSLCAMS(args.seed_min, args.seed_max, args.seed_ksz, args.seed_seg_ignore_idx) if args.seed_type == "MBProbSeederSLCAMS" else MBSeederSLCAMS(
-    #             args.seed_min, args.seed_max, args.seed_min_p, args.seed_fg_erode_k, args.seed_fg_erode_iter, args.seed_ksz, args.seed_seg_ignore_idx)
-    # seed_method = MBProbSeederSLCAMS() if args.seed_type == "MBProbSeederSLCAMS" else MBSeederSLCAMS(args.seed_min_p)
-
+    
     if args.seed_type == "MBProbSeederSLCAMS":
         seed_method = MBProbSeederSLCAMS()
     elif args.seed_type == "MBSeederSLCAMS":
         seed_method = MBSeederSLCAMS(min_p=args.seed_min_p)
     elif args.seed_type == "MBProbSeederSLCamsWithROI":
         seed_method = MBProbSeederSLCamsWithROI(min_ = args.seed_min, max_ = args.seed_max, min_p = args.seed_min_p, max_p = args.seed_max_p, seed_tech=args.seed_tech, bg_seed_tech=args.seed_tech_bg)
-    # binaryregionsproposal = BinaryRegionsProposal()
     with trial.train():
         for epoch in range(start_epoch, args.epochs):
 
@@ -764,19 +691,7 @@ def train_fusionmodule(args, trial):
                 'args': args,
             }
 
-            # loss_track_epochs.extend(loss_track)
-            # loss_track_epochs_vline.append(loss_track_epochs_vline[-1]+len(data_loader))
-
-            # loss_track = np.asarray(loss_track)
-            # for weight_index in range(loss_track.shape[1]):
-            #     if weight_index == 0: loss_name = 'Class Loss'
-            #     elif weight_index == 1: loss_name = 'Seed Loss'
-            #     elif weight_index == 2: loss_name = 'Total Loss'
-            #     # trial.log_metric(loss_name, loss_track[:, weight_index], step=epoch)
-            #     plt.plot(loss_track[:, weight_index], label=loss_name)
-            # plt.legend()
-            # plt.savefig(os.path.join(weight_plot_dir, f'weight_plot_epoch_{epoch}.png'))
-            # plt.close()
+           
             torch.save(save_dict, os.path.join(args.output_dir, 'checkpoint.pth'))
             if args.save_checkpoint_each_epoch:
                 torch.save(save_dict, os.path.join(args.output_dir, 'checkpoint_'+str(epoch)+'.pth'))
@@ -788,26 +703,11 @@ def train_fusionmodule(args, trial):
             with (Path(args.output_dir) / "log.txt").open("a") as f:
                 f.write(json.dumps(log_stats) + "\n")
 
-            # loss_track_epochs_temp = np.asarray(loss_track_epochs)
-            # if weight_index == 0: loss_name = 'Class Loss'
-            # elif weight_index == 1: loss_name = 'Seed Loss'
-            # elif weight_index == 2: loss_name = 'Total Loss'
-            # for weight_index in range(loss_track_epochs_temp.shape[1]):
-            #     plt.plot(loss_track_epochs_temp[:, weight_index], label=loss_name)
-            # for xc in zip(loss_track_epochs_vline):
-            #     plt.axvline(x=xc)
-            # del loss_track_epochs_temp
-            # plt.legend()
-            # fig = plt.gcf()
-            # fig.set_size_inches(100, 10)
-            # fig.savefig(os.path.join(args.output_dir, f'weight_plot.png'), dpi=300)
+           
             with open(os.path.join(args.output_dir, f'plot_data.pickle'), 'wb') as handle:
                 plot_data = {'loss_track_epochs': loss_track_epochs, 'loss_track_epochs_vline': loss_track_epochs_vline}
                 pickle.dump(plot_data, handle, protocol=pickle.HIGHEST_PROTOCOL)
             
-            # wandb_stats = copy.deepcopy(log_stats)
-            # wandb_stats['val_MaxBoxAcc'] = eval_acc
-            # wandb.log(wandb_stats)
 
         total_time = time.time() - start_time
         total_time_str = str(datetime.timedelta(seconds=int(total_time)))
@@ -947,109 +847,6 @@ def train_one_epoch(teacher, data_loader, optimizer, lr_schedule,
 
     return {k: meter.global_avg for k, meter in metric_logger.meters.items()}, loss_track
 
-class DINOLoss(nn.Module):
-    def __init__(self, out_dim, ncrops, warmup_teacher_temp, teacher_temp,
-                 warmup_teacher_temp_epochs, nepochs, student_temp=0.1,
-                 center_momentum=0.9):
-        super().__init__()
-        self.student_temp = student_temp
-        self.center_momentum = center_momentum
-        self.ncrops = ncrops
-        self.register_buffer("center", torch.zeros(1, out_dim))
-        # we apply a warm up for the teacher temperature because
-        # a too high temperature makes the training instable at the beginning
-        self.teacher_temp_schedule = np.concatenate((
-            np.linspace(warmup_teacher_temp,
-                        teacher_temp, warmup_teacher_temp_epochs),
-            np.ones(nepochs - warmup_teacher_temp_epochs) * teacher_temp
-        ))
-
-    def forward(self, student_output, teacher_output, epoch):
-        """
-        Cross-entropy between softmax outputs of the teacher and student networks.
-        """
-        student_out = student_output / self.student_temp
-        student_out = student_out.chunk(self.ncrops)
-
-        # teacher centering and sharpening
-        temp = self.teacher_temp_schedule[epoch]
-        teacher_out = F.softmax((teacher_output - self.center) / temp, dim=-1)
-        teacher_out = teacher_out.detach().chunk(2)
-
-        total_loss = 0
-        n_loss_terms = 0
-        for iq, q in enumerate(teacher_out):
-            for v in range(len(student_out)):
-                if v == iq:
-                    # we skip cases where student and teacher operate on the same view
-                    continue
-                loss = torch.sum(-q * F.log_softmax(student_out[v], dim=-1), dim=-1)
-                total_loss += loss.mean()
-                n_loss_terms += 1
-        total_loss /= n_loss_terms
-        self.update_center(teacher_output)
-        return total_loss
-
-    @torch.no_grad()
-    def update_center(self, teacher_output):
-        """
-        Update center used for teacher output.
-        """
-        batch_center = torch.sum(teacher_output, dim=0, keepdim=True)
-        dist.all_reduce(batch_center)
-        batch_center = batch_center / (len(teacher_output) * dist.get_world_size())
-
-        # ema update
-        self.center = self.center * self.center_momentum + batch_center * (1 - self.center_momentum)
-
-
-class DataAugmentationDINO(object):
-    def __init__(self, global_crops_scale, local_crops_scale, local_crops_number):
-        flip_and_color_jitter = transforms.Compose([
-            transforms.RandomHorizontalFlip(p=0.5),
-            transforms.RandomApply(
-                [transforms.ColorJitter(brightness=0.4, contrast=0.4, saturation=0.2, hue=0.1)],
-                p=0.8
-            ),
-            transforms.RandomGrayscale(p=0.2),
-        ])
-        normalize = transforms.Compose([
-            transforms.ToTensor(),
-            transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225)),
-        ])
-
-        # first global crop
-        self.global_transfo1 = transforms.Compose([
-            transforms.RandomResizedCrop(224, scale=global_crops_scale, interpolation=Image.BICUBIC),
-            flip_and_color_jitter,
-            utils.GaussianBlur(1.0),
-            normalize,
-        ])
-        # second global crop
-        self.global_transfo2 = transforms.Compose([
-            transforms.RandomResizedCrop(224, scale=global_crops_scale, interpolation=Image.BICUBIC),
-            flip_and_color_jitter,
-            utils.GaussianBlur(0.1),
-            utils.Solarization(0.2),
-            normalize,
-        ])
-        # transformation for the local small crops
-        self.local_crops_number = local_crops_number
-        self.local_transfo = transforms.Compose([
-            transforms.RandomResizedCrop(96, scale=local_crops_scale, interpolation=Image.BICUBIC),
-            flip_and_color_jitter,
-            utils.GaussianBlur(p=0.5),
-            normalize,
-        ])
-
-    def __call__(self, image):
-        crops = []
-        crops.append(self.global_transfo1(image))
-        crops.append(self.global_transfo2(image))
-        for _ in range(self.local_crops_number):
-            crops.append(self.local_transfo(image))
-        return crops
-
 def get_params(exp, param_name):
   best_test_Params = exp.get_parameters_summary(param_name)
   assert best_test_Params['valueMax'] == best_test_Params['valueMin'] == best_test_Params['valueCurrent'], 'Invalid params value'
@@ -1064,8 +861,6 @@ def run_main(trial, args):
         if args.use_classifier:
             args.lmda_clsloss = trial.params['lmda_clsloss']
             args.lmda_seed_loss = trial.params['lmda_seed_loss']
-        # if args.crf_fc:
-        #     args.lmda_crf_fc = trial.params['lmda_crf_fc']
         if args.top_n_head_for_sampling > 0:
             args.top_n_head_for_sampling = trial.params["top_n_head_for_sampling"]
 
@@ -1082,50 +877,11 @@ def run_main(trial, args):
 
     elif args.run_for_best_setting:
         raise NotImplemented('Not Implemented fro best setting')
-        # ValueError('Adjust hp first')
-        # comet_exp_lst = []
-        # maxboxacc_for_sorting = []
-        # for exp in api.get_experiments(workspace=comet_workspace, project_name=comet_projectname.lower().replace('_', '-')):
-        #     test_MaxBoxAcc = exp.get_metrics("test_MaxBoxAcc")
-        #     if len(test_MaxBoxAcc) > 0:
-        #         test_MaxBoxAcc = test_MaxBoxAcc[0]['metricValue']
-        #         comet_exp_lst.append([test_MaxBoxAcc, exp.id])
-        #         maxboxacc_for_sorting.append(test_MaxBoxAcc)
-        # comet_exp_lst = np.asarray(comet_exp_lst)
-        # maxboxacc_for_sorting_indx = np.asarray(maxboxacc_for_sorting).argsort()[::-1]
-        # best_exp = api.get_experiment(workspace=comet_workspace, project_name=comet_projectname.lower().replace('_', '-'), 
-        #                                 experiment=comet_exp_lst[maxboxacc_for_sorting_indx[args.best_hp_index_for_full_exp]][1])
-        # args.old_exp_key = comet_exp_lst[maxboxacc_for_sorting_indx[args.best_hp_index_for_full_exp]][1]
-        # args.lr = float(get_params(best_exp, 'lr'))
-        # args.lmda_clsloss = float(get_params(best_exp, 'lmda_clsloss'))
-        # args.lmda_seed_loss = float(get_params(best_exp, 'lmda_seed_loss'))
-        # if args.seed_type == "MBSeederSLCAMS" or args.seed_type == "MBProbSeederSLCamsWithROI":
-        #     args.seed_min_p = float(get_params(best_exp, 'seed_min_p'))
-        # if args.seed_type == "MBProbSeederSLCamsWithROI":
-        #     args.seed_min = int(get_params(best_exp, 'seed_min'))
-        # if args.normalize_with_softmax and args.seed_type == "MBProbSeederSLCamsWithROI":
-        #     args.normlization_temprature = int(get_params(best_exp, 'normlization_temprature'))
-
-        # trial = Experiment(api_key=api_key, project_name=('bt_new_roi_constrained'+comet_projectname)[:95], workspace=comet_workspace, log_code = False)
-
-        # print(f'Searching Hyper Paramter on {args.dataset_name} with study name {args.study_name}')
-        # args.experiment_name = f'best_trial_{str(trial.id)}'
 
     else:
         raise ValueError("Invalid option specified")
 
-    # with wandb.init(settings=wandb.Settings(_disable_stats=True)) as run:
-        # extra_configs = dict(run.config)#dict(run.config)
-        # for name in extra_configs:
-        #     setattr(args, name, extra_configs[name])
-        #only for turing
-        # args.data_root = "/home/emursha/DGA1032_code/dino_data/dataset"
-        # args.metadata_root = "/home/emursha/DGA1032_code/dino_data/metadata/CUB"
-        # args.dino_pretrained = "/home/emursha/DGA1032_code/dino_data/output_train_sam/best_loc_acc_checkpoint.pth"
-        # args.dino_pretrained = "/home/emursha/DGA1032_code/dino_data/output_train_sam/best_loc_acc_checkpoint.pth"
-        #only for turing
-    # args.min_lr = (args.lr)/(args.epochs*0.4)
-    #f'{args.experiment_name}_lr_{str(args.lr)}_seed_min_p_{str(args.seed_min_p)}_lmda_seed_loss_{str(args.lmda_seed_loss)}_lmda_clsloss_{str(args.lmda_clsloss)}'
+
     args.log_folder = configure_log_folder(args)
     args.data_paths = configure_data_paths(args)
     args.output_dir = args.log_folder
@@ -1142,17 +898,15 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser('FusionModule', parents=[get_args_parser()])
     args = parser.parse_args()
 
-    comet_workspace = 'shakeebmurtaza'
+    comet_workspace = '' #replace with your comet workspace
     
-    api_key = 'bbrVVBsFclbFud475m2L2WDYc'
+    api_key = '' #replace with your comet api key
     api = comet_ml.api.API(api_key=api_key)
     args.api = api
 
     if args.evaluate or args.run_for_given_setting or args.evaluate_only_on_attetion_maps:
         if os.path.exists(args.evaluate_checkpoint) or args.evaluate_only_on_attetion_maps:
             if os.path.exists(args.evaluate_checkpoint):
-                # keys_to_ignore = ['iou_regions_path', 'evaluate', 'dino_pretrained', 'evaluate_checkpoint', 'data_root', 'metadata_root']
-                # keys_to_ignore = ['epochs', 'iou_regions_path', 'proxy_training_set', 'evaluate', 'run_for_given_setting', 'dino_pretrained', 'evaluate_checkpoint', 'data_root']
                 keys_to_ignore = ['iou_regions_path', 'num_samples_to_save', 'mask_root', 'metadata_root', 'evaluate_only_on_attetion_maps', 'exp_pre_name', 'classifier_for_top1_top5', 'run_accumulate_and_save_fun', 'proxy_training_set', 'evaluate', 'run_for_given_setting', 'evaluate_checkpoint', 'data_root']
                 with open(os.path.join(args.evaluate_checkpoint, 'args.txt')) as json_file:
                     args_tmp = json.load(json_file)
