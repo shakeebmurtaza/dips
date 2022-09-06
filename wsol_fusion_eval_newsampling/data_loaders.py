@@ -36,8 +36,7 @@ import gc
 
 _IMAGE_MEAN_VALUE = [0.485, 0.456, 0.406]
 _IMAGE_STD_VALUE = [0.229, 0.224, 0.225]
-# _SPLITS = ('train_fusion', 'train', 'val', 'test')
-_SPLITS = ('val', 'test')
+_SPLITS = ('train_fusion', 'train', 'val', 'test')
 
 
 def mch(**kwargs):

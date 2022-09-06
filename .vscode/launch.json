@@ -5,6 +5,40 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "train_main_on_imagenet.py",
+            "type": "python",
+            "request": "launch",
+            "program": "main.py",
+            "console": "integratedTerminal",
+            "env": {
+                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+                "CUDA_VISIBLE_DEVICES": "1",
+            },
+            "args": [
+                // "--seed_type", "MBProbSeederSLCamsWithROI", "--arch", "vit_small", "--patch_size", "16", 
+                "--data_root", "~/datasets", "--dataset_name", "ILSVRC", "--epochs", "10", "--metadata_root", "/home/emursha/DGA1032_code/dino_orginal/metadata/ILSVRC", 
+                // "--batch_size_per_gpu", "32", "--experiment_category", "training_fusion_imagenet_newsamplingroi", 
+                // "--warmup_epochs", "0", "--num_workers", "8", "--search_hparameters", "true", "--evaluation_type", "1_4_heads_and_mean", 
+                // "--iou_regions_path", "Extract_bboxs_ILSVRC_with_vit_small_16_for_class_probability_with_dino_clfr_False/class_probability_dino_False_th0-75_nestedcontor_False_split_train_proxy0_0354a15a-e3e6-4300-8a64-e9017e8a15e5/1_4_heads_and_mean_on_train_list_imgs_with_best_head.pkl", 
+                "--proxy_training_set", "false", //"--number_of_heads_for_fusion", "0", "--use_image_as_input_for_fusion", "true", 
+                "--exp_pre_name", "train_logs_on_ILSVRC", 
+                // "--use_classifier", "true", "--use_dino_classifier", "true",
+                "--iou_regions_path", "/home/emursha/DGA1032_code/dino_orginal/Extract_bboxs_overlapped_topn__ILSVRC_with_vit_small_16_for_class_probability_with_dino_clfr_False/class_probability_dino_False_th0-75_nestedcontor_False_split_train_proxy0with_bg_rois_e5321b3c-9c09-4585-a647-27b6ffd453db/1_4_heads_and_mean_on_train_list_imgs_with_best_head.pkl",
+                "--run_for_given_setting",
+                // "--dino_pretrained", "/projets/smurtaza/wsol/dino_data/output_train_sam/best_loc_acc_checkpoint.pth",
+                // "--evaluate", 
+                "--evaluate_checkpoint", "configs/ILSVRC",
+                // "--evaluate", 
+                // "--evaluate_checkpoint", "/home/emursha/DGA1032_code/dino_orginal/best_trials/best_trials_ILSVRC_wacv/Fsion_cmt_ILSVRC__crf_fixed_islvrc_on_class_probability_dino_False_th0-75_nestedcontor_False_sp/trial_c151b11916aa46b69886643e67099139",
+                // "--crf_fc",
+                // "--classifier_for_top1_top5", "Dino_Head",
+                
+                // "--run_accumulate_and_save_fun"
+                // "--evaluate_only_on_attetion_maps"
+            ]   //, "--run_accumulate_and_save_fun"]
+        },
+    
+        {
             "name": "train_fusion_module_soufiane_newsampling_comet_new_args_imagnet.py",
             "type": "python",
             "request": "launch",
@@ -20,7 +54,7 @@
                 "--warmup_epochs", "0", "--num_workers", "8", "--search_hparameters", "true", "--evaluation_type", "1_4_heads_and_mean", 
                 // "--iou_regions_path", "Extract_bboxs_ILSVRC_with_vit_small_16_for_class_probability_with_dino_clfr_False/class_probability_dino_False_th0-75_nestedcontor_False_split_train_proxy0_0354a15a-e3e6-4300-8a64-e9017e8a15e5/1_4_heads_and_mean_on_train_list_imgs_with_best_head.pkl", 
                 "--proxy_training_set", "false", "--number_of_heads_for_fusion", "0", "--use_image_as_input_for_fusion", "true", 
-                "--exp_pre_name", "ilsvrc_top1_top5_wacv", 
+                "--exp_pre_name", "ilsvrc_top1_top5_wacv_recancluated", 
                 "--use_classifier", "true", "--use_dino_classifier", "true",
                 "--iou_regions_path", "Extract_bboxs_overlapped_topn__ILSVRC_with_vit_small_16_for_class_probability_with_dino_clfr_False/class_probability_dino_False_th0-75_nestedcontor_False_split_train_proxy0with_bg_rois_e5321b3c-9c09-4585-a647-27b6ffd453db/1_4_heads_and_mean_on_train_list_imgs_with_best_head.pkl",
                 // "--run_for_given_setting",
@@ -471,6 +505,38 @@
             //     "--search_hparameters", "false",
             //     "--nested_contours", "true",
             //     "--save_final_cams", "false"],
+        },
+
+        {
+            "name": "main_dino_eval_extract_bbox_imagenet.py",
+            "type": "python",
+            "request": "launch",
+            "program": "extract_bbox.py",
+            "env": {
+                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+                "CUDA_VISIBLE_DEVICES": "3",
+            },
+            "console": "integratedTerminal",
+            "args": ["--score_calulcation_method", 
+            "class_probability", 
+            "--proxy_training_set", "true", 
+            "--split", "train", "--bbox_min_size", "0.75", 
+            // "--use_dino_classifier", "true", 
+            "--evaluation_type", "1_4_heads_and_mean", 
+            "--num_samples_to_save", "0", 
+            "--data_root", "~/datasets", 
+            "--dataset_name", "ILSVRC", 
+            "--metadata_root", "/home/emursha/DGA1032_code/dino_orginal/metadata/ILSVRC", 
+            "--arch", "vit_small", 
+            "--patch_size", "16", 
+            "--batch_size_per_gpu", "32", 
+            "--num_workers", "8", 
+            "--cam_curve_interval", "0.5", 
+            "--search_hparameters", "false", 
+            "--nested_contours", "false", 
+            "--save_final_cams", "false", 
+            "--num_labels", "1000",
+            "--num_samples_to_save", "0"]// , "--resize_size", "512", "--crop_size", "448"]
         },
 
         {
