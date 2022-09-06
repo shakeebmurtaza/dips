@@ -69,7 +69,7 @@ extract_bbox.py
 ###### Also set the following parameters
   ###### ○ metadata_root: Add path for metadata generated in step 3
   ###### ○ data_root: Add path to dataset root
-  ###### ○ iou_regions_path: Add path to <text>*<\text>.pkl file that contains regions proposal for sampling background/foreground regions (<text>*<\text>.pkl can be generated using script in step 4.1).
+  ###### ○ iou_regions_path: Add path to .pkl file that contains regions proposal for sampling background/foreground regions (.pkl can be generated using script in step 4.1).
   
 ``` python
 main.py 
