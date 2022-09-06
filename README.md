@@ -31,7 +31,7 @@ Also refer [here](https://github.com/clovaai/wsolevaluation) for metadata prepar
 Also refer [here](https://github.com/clovaai/wsolevaluation) for intstruction to download dataset 
 
 
-#### 4.Run code
+#### 4. Run code
 
 ##### 4.1 To obtain region of interest for sampling foregorund/background pixels run the below given script.
 ###### Also set the following parameters
@@ -81,3 +81,10 @@ main.py
 --proxy_training_set false 
 --exp_pre_name train_logs_on_ILSVRC 
 ```
+
+#### 5. Credit: We borrow some code from the following repositories:
+
+##### ○ [https://github.com/clovaai/wsolevaluation](https://github.com/clovaai/wsolevaluation)
+##### ○ [https://github.com/sbelharbi/fcam-wsol](https://github.com/sbelharbi/fcam-wsol)
+
+##### ○ [https://github.com/facebookresearch/dino](https://github.com/facebookresearch/dino)
