@@ -1,3 +1,7 @@
+### Code for extended papaer has been released than can be used using main_extended.
+#### In addition previous you first need a linear classifier on top of dino feature and then copy those weights in root folder of this repository.
+
+
 ### Pytorch code for: Discriminative Sampling of Proposals in Self-Supervised Transformers for Weakly Supervised Object Localization
 
 #### 1. Requirements:
@@ -80,6 +84,35 @@ main.py
 --epochs 10
 --proxy_training_set false 
 --exp_pre_name train_logs_on_ILSVRC 
+```
+
+  ###### ○ train extended model
+
+``` python
+main.py 
+--seed_type MBProbSeederSLCamsWithROI 
+--arch vit_small 
+--patch_size 16
+--data_root ~/datasets 
+--metadata_root base_path_to_metadata/metadata/ILSVRC 
+--iou_regions_path path_to_extracted_regions/1_4_heads_and_mean_on_train_list_imgs_with_best_head.pkl --run_for_given_setting --evaluate_checkpoint configs/ILSVRC 
+--dataset_name ILSVRC 
+--epochs 10
+--proxy_training_set false 
+--exp_pre_name train_logs_on_ILSVRC 
+--batch_size_per_gpu 32 
+--experiment_category extended 
+--warmup_epochs 0 
+--num_workers 8 
+--evaluation_type 1_4_heads_and_mean 
+--iou_regions_path 'set_path_of_your_extracted_bbox' 
+--number_of_heads_for_fusion 0 
+--use_image_as_input_for_fusion true 
+--cam_curve_interval 0.001 
+--mask_root dataset 
+--search_hparameters true 
+--use_dino_classifier true 
+ --classifier_for_top1_top5 Dino_Head 
 ```
 
 #### 5. Credit: We borrow some code from the following repositories:
