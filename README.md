@@ -1,6 +1,28 @@
-### Code for extended papaer has been released than can be used using main_extended.
-#### In addition previous you first need a linear classifier on top of dino feature and then copy those weights in root folder of this repository.
+### Code for extended paper has been released that can be used using main_extended.py.
+#### In addition you first need to train a linear classifier on top of the dino feature and then copy those weights in the root folder of this repository.
 
+### Citation(s):
+```
+@inproceedings{murtaza2023discriminative,
+  title={Discriminative sampling of proposals in self-supervised transformers for weakly supervised object localization},
+  author={Murtaza, Shakeeb and Belharbi, Soufiane and Pedersoli, Marco and Sarraf, Aydin and Granger, Eric},
+  booktitle={Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision Workshops},
+  pages={155--165},
+  year={2023}
+}
+```
+```
+@article{MURTAZA2023dips,
+title = {DiPS: Discriminative Pseudo-label sampling with self-supervised transformers for weakly supervised object localization},
+author = {Shakeeb Murtaza and Soufiane Belharbi and Marco Pedersoli and Aydin Sarraf and Eric Granger},
+journal = {Image and Vision Computing},
+pages = {104838},
+year = {2023},
+issn = {0262-8856},
+doi = {https://doi.org/10.1016/j.imavis.2023.104838},
+url = {https://www.sciencedirect.com/science/article/pii/S0262885623002123},
+}
+```
 
 ### Pytorch code for: Discriminative Sampling of Proposals in Self-Supervised Transformers for Weakly Supervised Object Localization
 
